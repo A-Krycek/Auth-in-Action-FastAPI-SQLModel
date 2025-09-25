@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from sqlmodel import SQLModel, Field
+from sqlmodel import SQLModel
 app = FastAPI()
 class Usuario(SQLModel):
     nombre_usuario: str
@@ -20,3 +20,4 @@ async def iniciar_sesion(usuario: UsuarioLogin):
         if usuario.nombre_usuario == u["nombre_usuario"] and usuario.contrasena == u["contrasena"]:
             return {"mensaje": "Login correcto"}
     return {"mensaje": "Credenciales inválidas"}
+
