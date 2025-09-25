@@ -1,3 +1,4 @@
+!pip install sqlmodel
 from fastapi import FastAPI, HTTPException, status
 from sqlmodel import SQLModel
 app = FastAPI()
@@ -13,3 +14,5 @@ async def iniciar_sesion(usuario: UsuarioLogin):
         return {"mensaje": "Login correcto"}
     else:
         return {"Mensaje":"Credenciales inválidas"}
+!python3 -m venv venv 
+!python3 main.py
