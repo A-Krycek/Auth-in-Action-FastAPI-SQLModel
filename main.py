@@ -1,18 +1,22 @@
-!pip install sqlmodel
-from fastapi import FastAPI, HTTPException, status
-from sqlmodel import SQLModel
+from fastapi import FastAPI
+from sqlmodel import SQLModel, Field
 app = FastAPI()
-@app.get("/")
-async def leer_raiz():
-    return {"Hello": "World"}
+class Usuario(SQLModel):
+    nombre_usuario: str
+    contrasena: str
+usuarios_db = [
+    {"nombre_usuario": "admin", "contrasena": "password123"},
+    {"nombre_usuario": "user1", "contrasena": "1234"}
+]
 class UsuarioLogin(SQLModel):
     nombre_usuario: str
     contrasena: str
+@app.get("/")
+async def leer_raiz():
+    return {"Hello": "World"}
 @app.post("/login")
 async def iniciar_sesion(usuario: UsuarioLogin):
-    if usuario.nombre_usuario == "admin" and usuario.contrasena == "password123":
-        return {"mensaje": "Login correcto"}
-    else:
-        return {"Mensaje":"Credenciales inválidas"}
-!python3 -m venv venv 
-!python3 main.py
+    for u in usuarios_db:
+        if usuario.nombre_usuario == u["nombre_usuario"] and usuario.contrasena == u["contrasena"]:
+            return {"mensaje": "Login correcto"}
+    return {"mensaje": "Credenciales inválidas"}
