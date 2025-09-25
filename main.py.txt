@@ -1,0 +1,15 @@
+from fastapi import FastAPI, HTTPException, status
+from sqlmodel import SQLModel
+app = FastAPI()
+@app.get("/")
+async def leer_raiz():
+    return {"Hello": "World"}
+class UsuarioLogin(SQLModel):
+    nombre_usuario: str
+    contrasena: str
+@app.post("/login")
+async def iniciar_sesion(usuario: UsuarioLogin):
+    if usuario.nombre_usuario == "admin" and usuario.contrasena == "password123":
+        return {"mensaje": "Login correcto"}
+    else:
+        return {"Mensaje":"Credenciales inválidas"}
